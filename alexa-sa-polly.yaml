@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+
+  SMSAPIFunction:
+    Type: AWS::Serverless::Function
+    Properties: 
+      FunctionName: Alexa_Polly_Voice
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: ./src
+      Role: !GetAtt PollyS3AccessRole.Arn
+      Environment:
+        Variables: 
+          S3_BUCKET: alexademo.ninja
+      Events:
+        PostResource:
+          Type: Api
+          Properties:
+            Path: /polly/{voice_id}
+            Method: post   
+
+# Role for the lambda Function
+# Current extends Lambda Basic Execution role with ALL PERMISSIONS
+# TODO
+# To be restricted to Polly / S3
+  PollyS3AccessRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+            Path: "/"
+            Policies: 
+                    - 
+                      PolicyName: "all"
+                      PolicyDocument: 
+                        Version: "2012-10-17"
+                        Statement: 
+                          - 
+                            Effect: "Allow"
+                            Action: "*"
+                            Resource: "*"            
+            ManagedPolicyArns:
+                - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+            AssumeRolePolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                -
+                  Sid: "AllowLambdaServiceToAssumeRole"
+                  Effect: "Allow"
+                  Action: 
+                    - "sts:AssumeRole"
+                  Principal:
+                    Service: 
+                      - "lambda.amazonaws.com"
