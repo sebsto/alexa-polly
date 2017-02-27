@@ -22,9 +22,6 @@ Resources:
             Method: post   
 
 # Role for the lambda Function
-# Current extends Lambda Basic Execution role with ALL PERMISSIONS
-# TODO
-# To be restricted to Polly / S3
   PollyS3AccessRole:
       Type: "AWS::IAM::Role"
       Properties:
