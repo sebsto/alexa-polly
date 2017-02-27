@@ -13,6 +13,7 @@ Resources:
       Role: !GetAtt PollyS3AccessRole.Arn
       Environment:
         Variables: 
+          # the bucket name will be replaced by package.sh script
           S3_BUCKET: <S3_BUCKET>
       Events:
         PostResource:
