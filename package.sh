@@ -8,6 +8,11 @@
 # and using a AWS Certificate associated to it
 S3_BUCKET=alexademo.ninja
 
+# add bucket name in AWS SAM config file 
+# the below line is likely to NOT WORK on Linux (Mac only)
+sed -i "" -s "s/S3_BUCKET/$S3_BUCKET/g" alexa-sa-polly.yaml
+
+# package code and generate the cloudformtion template
 aws cloudformation package \
    --template-file alexa-sa-polly.yaml \
    --output-template-file serverless-output.yaml \
