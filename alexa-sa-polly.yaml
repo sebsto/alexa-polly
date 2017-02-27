@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 
 Resources:
 
-  SMSAPIFunction:
+  PollyAPIFunction:
     Type: AWS::Serverless::Function
     Properties: 
       FunctionName: Alexa_Polly_Voice
@@ -31,14 +31,24 @@ Resources:
             Path: "/"
             Policies: 
                     - 
-                      PolicyName: "all"
+                      PolicyName: "Polly"
                       PolicyDocument: 
                         Version: "2012-10-17"
                         Statement: 
                           - 
                             Effect: "Allow"
-                            Action: "*"
+                            Action: "polly:SynthesizeSpeech"
                             Resource: "*"            
+                    - 
+                      PolicyName: "S3"
+                      PolicyDocument: 
+                        Version: "2012-10-17"
+                        Statement: 
+                          - 
+                            Effect: "Allow"
+                            Action: "s3:PutObject"
+                            Resource: "arn:aws:s3:::alexademo.ninja/polly/*"   
+
             ManagedPolicyArns:
                 - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
             AssumeRolePolicyDocument:
