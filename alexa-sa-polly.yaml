@@ -13,7 +13,7 @@ Resources:
       Role: !GetAtt PollyS3AccessRole.Arn
       Environment:
         Variables: 
-          S3_BUCKET: S3_BUCKET
+          S3_BUCKET: <S3_BUCKET>
       Events:
         PostResource:
           Type: Api
